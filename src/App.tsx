@@ -1,13 +1,11 @@
-import './App.css'
+import "./App.css";
 
 function App() {
   return (
     <>
-      <p>
-        Uphold
-      </p>
+      <p>Uphold</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
