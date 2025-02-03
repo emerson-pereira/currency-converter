@@ -5,6 +5,7 @@ import {
   formatCurrency,
   removeNonNumerics,
 } from "../utils";
+import Select from "./Select";
 
 interface CurrencyConverterProps extends ReactElementProps {
   ratesPlaceholder: string;
@@ -25,13 +26,22 @@ function CurrencyConverter(props: CurrencyConverterProps) {
 
   return (
     <div className={`w-full ${props.className}`}>
-      <input
-        type="text"
-        placeholder="0.00"
-        className="input text-gray-500 w-full py-2 px-4 bg-sky-50 rounded"
-        value={formatted}
-        onChange={handleAmountChange}
-      />
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="0.00"
+          className="input w-full rounded bg-sky-50 text-gray-500 py-3 px-4"
+          value={formatted}
+          onChange={handleAmountChange}
+        />
+        <div className="absolute h-full right-0 top-1/2 -translate-y-1/2 flex flex-col justify-center mr-2">
+          <Select
+            className="rounded-full bg-white text-md text-gray-800 uppercase"
+            items={[{ title: "USD" }, { title: "EUR" }]}
+          />
+        </div>
+      </div>
+
       <p className="text-sm text-center text-gray-500 mt-5">
         {props.ratesPlaceholder}
       </p>
