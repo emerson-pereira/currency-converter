@@ -13,7 +13,7 @@ function App() {
             See how we compare.
           </p>
           <CurrencyConverter
-            className="mt-5"
+            className="my-5"
             ratesPlaceholder="Enter an amount to check the rates."
           />
         </div>

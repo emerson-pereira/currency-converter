@@ -1,5 +1,5 @@
 import React from "react";
-import selectIcon from "../assets/icons/select-icon.svg";
+import selectIcon from "../assets/icons/dropdown-icon.svg";
 
 type SelectOption = {
   title: string;
@@ -15,12 +15,12 @@ function Select(props: SelectProps) {
   return (
     <div className="relative">
       <select
-        className={`select appearance-none pr-[1em] pl-[.5em] outline-none ${props.className}`}
+        className={`select appearance-none font-medium pr-[1em] pl-[.5em] outline-none ${props.className}`}
+        onChange={props.onChange}
       >
         {props.items.map((item, index) => (
           <option
             key={index}
-            className="-full"
             value={item.title}
             selected={item.selected}
             disabled={item.disabled}

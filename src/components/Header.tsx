@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/small-logo.svg";
 import { ReactElementProps } from "../types/react";
 
 function Header(props: ReactElementProps) {
