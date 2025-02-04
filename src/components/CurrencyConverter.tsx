@@ -14,9 +14,9 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 const DEFAULT_CURRENCY = "USD";
 
-interface CurrencyConverterProps extends ReactElementProps {
+type CurrencyConverterProps = ReactElementProps & {
   ratesPlaceholder: string;
-}
+};
 
 function CurrencyConverter(props: CurrencyConverterProps) {
   const [cents, setCents] = useLocalStorage("cents", 0);

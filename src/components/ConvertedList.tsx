@@ -8,16 +8,19 @@ import {
 } from "../utils";
 import { Rate } from "../types";
 
-interface ResultsProps extends ReactElementProps {
+type ConvertedListProps = ReactElementProps & {
   cents: number;
   currency: string;
-}
+};
 
-type ListItem = { amount: string; currency: string };
+type ConvertedListItem = {
+  amount: string;
+  currency: string;
+};
 
-function ConvertedList(props: ResultsProps) {
+function ConvertedList(props: ConvertedListProps) {
   const rates: Rate[] = useRates(props.currency);
-  const listItems = useMemo<ListItem[]>(() => {
+  const listItems = useMemo<ConvertedListItem[]>(() => {
     return rates.map((rate: Rate) => {
       const convertedCents: number = convertCurrencyByRate(
         props.cents,
@@ -32,7 +35,7 @@ function ConvertedList(props: ResultsProps) {
 
   return (
     <div className="flex flex-col text-gray-800 font-medium pt-4 pl-2 pr-10">
-      {listItems.map((item: ListItem) => (
+      {listItems.map((item: ConvertedListItem) => (
         <div className="flex justify-between p-1" key={item.currency}>
           <div>{item.amount}</div>
           <div>{item.currency}</div>
