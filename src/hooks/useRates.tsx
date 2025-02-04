@@ -1,36 +1,31 @@
 import { useCallback, useEffect } from "react";
-import { UpholdRate } from "../types/uphold";
-import upholdSDK from "@uphold/uphold-sdk-javascript";
 import useLocalStorage from "./useLocalStorage";
+import { Rate } from "../types";
+import { RatesService } from "../services/rates";
 
-const SDK = new upholdSDK({
-  baseUrl: "http://api-sandbox.uphold.com",
-  clientId: "foo",
-  clientSecret: "bar",
-});
+const ratesService = new RatesService();
 
-function useRates(currency: string): UpholdRate[] {
+function useRates(currency: string): Rate[] {
   const [rates, setRates] = useLocalStorage("rates", []);
 
   const handleRates = useCallback(
-    (rates: UpholdRate[]) => {
+    (rates: Rate[]) => {
       setRates(rates);
     },
     [currency],
   );
 
   useEffect(() => {
-    if (rates.length && rates[0].currency === currency) {
+    if (rates.length && rates[0].currencyFrom === currency) {
       return;
     }
 
-    SDK.getTicker(currency)
-      .then((data: any) => {
-        handleRates(data.slice(0, 10));
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
+    const updateRates = async () => {
+      const rates: Rate[] = await ratesService.getRates(currency);
+      handleRates(rates.slice(0, 10));
+    };
+
+    updateRates();
   }, [currency]);
 
   return rates;
