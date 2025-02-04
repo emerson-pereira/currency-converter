@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ReactElementProps } from "../types/react";
 import {
   convertCentsToCurrencyUnit,
@@ -10,6 +10,7 @@ import useCurrencies from "../hooks/useCurrencies";
 import { SelectItem } from "../types";
 import ConvertedList from "./ConvertedList";
 import useDebounce from "../hooks/useDebounce";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const DEFAULT_CURRENCY = "USD";
 
@@ -18,14 +19,14 @@ interface CurrencyConverterProps extends ReactElementProps {
 }
 
 function CurrencyConverter(props: CurrencyConverterProps) {
-  const [cents, setCents] = useState<number>(0);
-  const centsDebounced: number = useDebounce(cents, 1000);
+  const [cents, setCents] = useLocalStorage("cents", 0);
+  const centsDebounced: number = useDebounce(cents as number, 1000);
   const amountFormatted: string = useMemo<string>(() => {
     const amount: number = convertCentsToCurrencyUnit(cents);
     return formatCurrency(amount);
   }, [cents]);
 
-  const [currency, setCurrency] = useState<string>(DEFAULT_CURRENCY);
+  const [currency, setCurrency] = useLocalStorage("currency", DEFAULT_CURRENCY);
   const currencies: string[] = useCurrencies();
 
   const selectItems = useMemo<SelectItem[]>(() => {
