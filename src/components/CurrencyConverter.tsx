@@ -6,7 +6,6 @@ import {
   removeNonNumerics,
 } from "../utils";
 import Select from "./Select";
-import { UpholdAsset } from "../types/uphold";
 import useCurrencies from "../hooks/useCurrencies";
 import { SelectItem } from "../types";
 import ConvertedList from "./ConvertedList";
@@ -27,12 +26,12 @@ function CurrencyConverter(props: CurrencyConverterProps) {
   }, [cents]);
 
   const [currency, setCurrency] = useState<string>(DEFAULT_CURRENCY);
-  const currencies: UpholdAsset[] = useCurrencies();
+  const currencies: string[] = useCurrencies();
 
   const selectItems = useMemo<SelectItem[]>(() => {
-    return currencies.map((currency: UpholdAsset) => ({
-      title: currency.code,
-      selected: currency.code === DEFAULT_CURRENCY,
+    return currencies.map((currency: string) => ({
+      title: currency,
+      selected: currency === DEFAULT_CURRENCY,
     }));
   }, [currencies]);
 

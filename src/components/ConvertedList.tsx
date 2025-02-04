@@ -16,20 +16,18 @@ interface ResultsProps extends ReactElementProps {
 type ListItem = { currency: string; amount: string };
 
 function ConvertedList(props: ResultsProps) {
-  const rates = useRates(props.currency);
+  const rates: UpholdRate[] = useRates(props.currency);
   const listItems = useMemo<ListItem[]>(() => {
     return rates.map((rate: UpholdRate) => {
+      const currency: string = rate.pair.replace(`-${rate.currency}`, "");
       const convertedCents: number = convertCurrencyByRate(
         props.cents,
         rate.ask,
       );
       const converted: number = convertCentsToCurrencyUnit(convertedCents);
-      const formatted: string = formatCurrency(converted);
+      const amount: string = formatCurrency(converted);
 
-      return {
-        currency: rate.currency,
-        amount: formatted,
-      };
+      return { currency, amount };
     });
   }, [rates, props.cents]);
 
