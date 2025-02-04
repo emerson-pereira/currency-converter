@@ -1,5 +1,3 @@
-export type SelectItem = { title: string };
-
 export type Rate = {
   currencyFrom: string;
   currencyTo: string;

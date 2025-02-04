@@ -34,11 +34,13 @@ function ConvertedList(props: ConvertedListProps) {
   }, [rates, props.cents]);
 
   return (
-    <div className="flex flex-col text-gray-800 font-medium pt-4 pl-2 pr-4">
+    <div
+      className={`flex flex-col text-gray-800 font-medium pt-4 pl-2 pr-5 ${props.className}`}
+    >
       {listItems.map((item: ConvertedListItem) => (
-        <div className="flex justify-between p-1 " key={item.currency}>
+        <div className="flex justify-between p-1" key={item.currency}>
           <div>{item.amount}</div>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <img
               className="h-4 mr-[0.5em]"
               src={`./currencies/${item.currency}.png`}

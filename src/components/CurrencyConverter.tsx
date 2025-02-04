@@ -5,12 +5,11 @@ import {
   formatCurrency,
   removeNonNumerics,
 } from "../utils";
-import Select from "./Select";
 import useCurrencies from "../hooks/useCurrencies";
-import { SelectItem } from "../types";
 import ConvertedList from "./ConvertedList";
 import useDebounce from "../hooks/useDebounce";
 import useLocalStorage from "../hooks/useLocalStorage";
+import Dropdown from "./Dropdown";
 
 const DEFAULT_CURRENCY = "USD";
 
@@ -29,11 +28,8 @@ function CurrencyConverter(props: CurrencyConverterProps) {
   const [currency, setCurrency] = useLocalStorage("currency", DEFAULT_CURRENCY);
   const currencies: string[] = useCurrencies();
 
-  const selectItems = useMemo<SelectItem[]>(() => {
-    return currencies.map((currency: string) => ({
-      title: currency,
-      selected: currency === DEFAULT_CURRENCY,
-    }));
+  const dropdownOptions = useMemo<string[]>(() => {
+    return currencies.map((currency: string) => currency);
   }, [currencies]);
 
   function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -52,20 +48,24 @@ function CurrencyConverter(props: CurrencyConverterProps) {
           onChange={handleAmountChange}
         />
         <div className="absolute h-full right-0 top-1/2 -translate-y-1/2 flex flex-col justify-center mr-2">
-          <Select
-            className="rounded-full bg-white text-md text-gray-800 uppercase"
-            items={selectItems}
-            onChange={(e) => setCurrency((e.target as HTMLSelectElement).value)}
+          <Dropdown
+            options={dropdownOptions}
+            default={currency}
+            onChange={(option) => setCurrency(option)}
           />
         </div>
       </div>
 
       {centsDebounced === 0 ? (
-        <p className="text-sm text-center text-gray-500 mt-5">
+        <p className="text-sm text-center text-gray-500 mt-5 transition-all duration-300 ease-in-out">
           {props.ratesPlaceholder}
         </p>
       ) : (
-        <ConvertedList cents={centsDebounced} currency={currency} />
+        <ConvertedList
+          className="transition-all duration-300 ease-in-out"
+          cents={centsDebounced}
+          currency={currency}
+        />
       )}
     </div>
   );
