@@ -22,7 +22,7 @@ function useRates(currency: string): Rate[] {
 
     const updateRates = async () => {
       const rates: Rate[] = await ratesService.getRates(currency);
-      handleRates(rates.slice(0, 10));
+      handleRates(rates);
     };
 
     updateRates();
