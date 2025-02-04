@@ -1,10 +1,9 @@
-import logo from "../assets/small-logo.svg";
 import { ReactElementProps } from "../types/react";
 
 function Header(props: ReactElementProps) {
   return (
     <header className={props.className}>
-      <img src={logo} alt="logo" width={100} />
+      <img className="h-10" src="./small-logo.svg" alt="logo" />
     </header>
   );
 }
