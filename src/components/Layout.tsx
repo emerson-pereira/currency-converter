@@ -8,7 +8,7 @@ function Layout(props: ReactElementProps) {
       <Header className="flex-none flex justify-center py-5" />
       <main className="flex-grow">{props.children}</main>
       <hr className="border-gray-200 mt-5" />
-      <Footer className="flex-none flex justify-center py-5 text-gray-800" />
+      <Footer className="flex-none flex justify-center py-5" />
     </div>
   );
 }

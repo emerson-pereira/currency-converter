@@ -5,5 +5,5 @@ export type Rate = {
 };
 
 export interface IRatesService {
-  getRates(currency: string): Promise<Rate[] | null>;
+  getRates(currency: string): Promise<Rate[]>;
 }

@@ -39,7 +39,7 @@ export class RatesService implements IRatesService {
   async getRates(
     currency: string,
     limit: number = RATES_LIMIT,
-  ): Promise<Rate[] | null> {
+  ): Promise<Rate[]> {
     try {
       const rates: UpholdRate[] = await SDK.getTicker(currency);
       const ratesNormalized: Rate[] = handleRates(rates, currency, limit);
@@ -47,7 +47,9 @@ export class RatesService implements IRatesService {
       return ratesNormalized;
     } catch (error) {
       console.log("Error getting rates from remote source", error);
-      return null;
+      return [];
     }
   }
 }
+
+export const ratesService = new RatesService();

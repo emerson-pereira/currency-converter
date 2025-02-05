@@ -1,5 +1,5 @@
 {
-  "name": "uphold",
+  "name": "currency-converter",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "prettier": "prettier --write .",
+    "format": "prettier --write .",
     "preview": "vite preview",
     "test": "vitest"
   },

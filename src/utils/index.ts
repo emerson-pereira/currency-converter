@@ -26,7 +26,7 @@ export function removeNonNumerics(value: string): string {
 // Convert cents to currency unit.
 // E.g. 1 => 0.01
 export function convertCentsToCurrencyUnit(value: number | string): number {
-  let parsedValue: number =
+  const parsedValue: number =
     typeof value === "string" ? parseInt(value, 10) : value;
 
   return parsedValue / 100;

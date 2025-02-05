@@ -1,38 +1,58 @@
-import { useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { Rate } from "../types";
-import { RatesService } from "../services/rates";
+import { ratesService } from "../services/rates";
 
-const ratesService = new RatesService();
+export type UseRates = {
+  rates: Rate[];
+  loading: boolean;
+  error: string | null;
+};
 
-function useRates(currency: string): Rate[] | null {
+function useRates(currency: string): UseRates {
   const [rates, setRates] = useLocalStorage("rates", []);
-
-  const handleRates = useCallback(
-    (rates: Rate[] | null) => {
-      setRates(rates);
-    },
-    [currency],
-  );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (rates === null) {
+    let ignore = false;
+
+    const hasCached: boolean =
+      rates?.length && rates[0].currencyFrom === currency;
+    if (!currency || hasCached) {
       return;
     }
 
-    if (rates.length && rates[0].currencyFrom === currency) {
-      return;
+    setRates([]);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const updateRates = async () => {
+        const newRates: Rate[] = await ratesService.getRates(currency);
+
+        if (!ignore) {
+          if (newRates.length) {
+            setRates(newRates);
+          } else {
+            setError("Oops, currency not available. Please try another one.");
+          }
+
+          setLoading(false);
+        }
+      };
+
+      updateRates();
+    } catch (error) {
+      setError("Oops, currency not available. Please try another one.");
     }
 
-    const updateRates = async () => {
-      const rates: Rate[] | null = await ratesService.getRates(currency);
-      handleRates(rates);
+    return () => {
+      ignore = true;
     };
-
-    updateRates();
   }, [currency]);
 
-  return rates;
+  return { rates, loading, error };
 }
 
 export default useRates;
